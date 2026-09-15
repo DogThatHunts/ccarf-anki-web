@@ -73,6 +73,7 @@ h1,h2,h3{font-family:Charter,'Iowan Old Style',Georgia,serif;font-weight:600}
 .panel h2{margin:0 0 12px;font-size:18px}
 .dueline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 14px}
 .dueline b{font-size:30px;line-height:1}
+.dueline .scope{font-weight:700;color:var(--ink)}
 .deckrow{display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px;align-items:center;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
 .deckrow:first-of-type{border-top:none}
 .deckrow .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -575,7 +576,7 @@ function renderHome() {
   const cap = renderTopCounts();
   const tot = cap.nw + cap.lrn + cap.rev;
   $('duebig').textContent = tot;
-  $('duesub').innerHTML = (filter ? 'cards in <b>' + esc(filter.label) + '</b>' : 'cards due right now') +
+  $('duesub').innerHTML = (filter ? 'cards in <span class="scope">' + esc(filter.label) + '</span>' : 'cards due right now') +
     ' · <span class="muted">' + cap.nw + ' new, ' + cap.lrn + ' learning, ' + cap.rev + ' review</span>';
   if (filter) {
     $('studyall').disabled = false;
