@@ -5,7 +5,8 @@ A spaced-repetition deck for the **Claude Certified Architect – Foundations (C
 **Study here:** https://dogthathunts.github.io/ccarf-anki-web/
 
 - Six decks by domain, five card shapes: mechanism, trigger, discrimination, anti-pattern, cloze
-- FSRS-5 scheduling with the deck's settings already applied — 20 new cards a day, learning steps of 25 minutes and 1 day, desired retention 0.90, leeches tagged at six lapses
+- FSRS-5 scheduling with the deck's settings already applied — learning steps of 25 minutes and 1 day, desired retention 0.90, leeches tagged at six lapses
+- **Set your exam date** and the deck recalibrates: daily intake becomes the number that covers the deck in the time you have, and intervals cap at 70% of the days remaining so nothing is scheduled past the point you could still review it. A fortnight out that means 44 new cards a day and about 40 minutes daily; four weeks out, 20 a day and half that
 - Custom study by task statement, priority, or card class: `tag:ts::3_1`, `priority::high`, `class::discrimination`, `-scope::background`, `is:leech`. **Drill all** walks a whole tag whether or not the cards are due, weakest first
 - Stats: retention, four-week forecast, and first-attempt accuracy per objective, with a one-tap drill on anything under 70%
 - Named profiles, so several people can share a machine, with backup and restore as a JSON file

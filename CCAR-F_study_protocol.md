@@ -63,15 +63,16 @@ Every note carries four tags, and a few carry a fifth.
 
 These are already configured. They are listed so you know what the schedule is doing, and so you can tell whether a change you make in Settings is an improvement or a mistake.
 
-1. New cards per day: **20**. Raise it to **35** if you have only two to three weeks. Above 35 the review load compounds past what is sustainable.
+0. Exam date: **set it on the first screen, or in Settings.** Everything below recalibrates around it. Two things change: the daily intake becomes the number that actually covers the deck in the time you have, and intervals cap at 70% of the days remaining, so nothing is scheduled past the point where you could still review it. Without a date the deck assumes an open-ended run.
+1. New cards per day: **20** with four weeks or more. With a fortnight it has to be **40 to 44**, which is what the deck sets when you give it a date two weeks out. Past 45 the review load stops being survivable.
 2. Maximum reviews per day: **200**. Leave headroom; a cap that bites creates a backlog you never clear.
 3. Learning steps: **25m, then 1d**. The usual `1m 10m` default is tuned for vocabulary, and these cards need a longer first gap.
 4. Relearning steps: **20m, then 1d**.
 5. Leech threshold: **6 lapses**, tagged rather than suspended. A leech in this deck is a signal to go read the source, not to drop the card.
-6. FSRS with desired retention **0.90**. Change it before you start, not partway through — it reshapes every future interval.
+6. FSRS with desired retention **0.90**. Change it before you start, not partway through — it reshapes every future interval. Dropping to 0.85 saves about 9% of the work and costs you recall on the day; for an exam run it is a bad trade.
 7. Sibling burying: **on**. Stops the two halves of a cloze card appearing in the same session.
 
-Only the first three, retention, burying and the theme are exposed in Settings; the steps and the leech threshold are fixed.
+Only the exam date, the first three, retention, burying and the theme are exposed in Settings; the steps and the leech threshold are fixed.
 
 Answer honestly. Pressing Good on a card you half-knew is the single fastest way to make the schedule useless.
 
@@ -86,7 +87,7 @@ The first screen asks who is studying. Each name keeps its own schedule, so seve
 
 ## 4. Running it
 
-**Daily, 20 to 30 minutes.** Clear the review queue first, then take the day's new cards. Two sessions of 15 minutes beat one of 30. If a day's reviews exceed 30 minutes, drop new cards to zero for two days rather than skipping reviews; reviews are the part that holds the deck together.
+**Daily, in two sittings.** Clear the review queue first, then take the day's new cards. On a four-week run that is 20 to 30 minutes; on a fortnight it is 35 to 45, because the same deck has to fit into half the time. If a day's reviews run long, drop new cards to zero for a day rather than skipping reviews; reviews are the part that holds the deck together.
 
 **Keyboard:** space reveals the answer, then 1 to 4 grade it (Again, Hard, Good, Easy); space again is Good. `u` undoes the last answer.
 
@@ -98,7 +99,27 @@ The first screen asks who is studying. Each name keeps its own schedule, so seve
 
 This closes the loop: the simulator locates the gap, the deck fills it, the next run tests whether it held.
 
-**A suggested four-week shape**, if you have four weeks:
+### The fourteen-day shape
+
+This is the schedule the deck assumes when you set an exam date a fortnight out. The numbers below are measured from a simulated run of the real deck at an 84% pass rate, not estimated.
+
+**What it costs.** 44 new cards a day for twelve days, then two days of reviews alone. That works out at **about 210 answers on a median day and 240 at the peak**, roughly 2,600 answers over the fortnight. At eight to ten seconds a card that is **35 to 45 minutes a day**, which you should split into two sittings — reviews in the morning, new cards in the evening. Going in expecting 20 minutes and finding 40 is how a run gets abandoned on day four.
+
+| Days | New cards | What else |
+|---|---|---|
+| 1–3 | 44/day | Simulator run at the end of day 3 for a baseline. Do not study the results yet; just take the score. |
+| 4–7 | 44/day | Reviews are now the bulk of the session. Second simulator run on day 7. |
+| 8–10 | 44/day, finishing around day 12 | Drill every objective the day-7 run put under 70%: tap the task statement under Custom study, then **Drill all**. |
+| 11–12 | Last of the new cards | Third simulator run on day 11. Targeted drills on whatever is still weak. |
+| 13–14 | **None** | Reviews only, plus drills on the objectives still under 70%. No fresh mock exam on the last day. |
+
+**If 40+ new cards a day is not realistic** — and for most people with a job it is not — do not water the whole deck down. Search `priority::high` and work that alone: 334 cards, 28 a day, about **130 answers a day or 20 minutes**, covering the objectives where candidates most often score zero. The remaining 184 cards become optional drilling if the simulator says you need them. A complete pass over the high-priority set beats a half-finished pass over everything.
+
+**Why the exam date matters more than the intake number.** Without it, the scheduler pushes well-answered cards 20, 30, 40 days out — past the exam, so you never see them again. In the simulated fortnight that left 92 cards cold on exam day, unseen for more than five days. With the date set, the cap brings that down to 2.
+
+### The four-week shape
+
+If you have four weeks:
 
 1. Week 1: 25 new cards a day, D1 and D3 first. One simulator run at the end of the week to get a baseline.
 2. Week 2: continue new cards, second simulator run mid-week, targeted study on whatever came back under 70%.

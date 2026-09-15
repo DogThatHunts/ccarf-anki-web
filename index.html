@@ -69,6 +69,13 @@ h1,h2,h3{font-family:Charter,'Iowan Old Style',Georgia,serif;font-weight:600}
 .wrap{max-width:820px;margin:0 auto;padding:22px 18px 90px}
 
 /* ---------- home ---------- */
+#plan .countdown{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 8px}
+#plan .countdown b{font-size:30px;line-height:1}
+#plan .verdict{font-size:13.5px;color:var(--muted);line-height:1.5}
+#plan .verdict b{color:var(--ink)}
+#plan .act{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#plan .act button{padding:5px 12px;font-size:13px}
+#plan .warn{color:var(--flag)}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:16px 18px;margin:0 0 16px}
 .panel h2{margin:0 0 12px;font-size:18px}
 .dueline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 14px}
@@ -161,15 +168,17 @@ textarea{width:100%;min-height:150px;font:12px/1.45 ui-monospace,Menlo,monospace
     <li><b>One card, one fact.</b> Every card answers in under ten seconds. A card holding four facts cannot be scheduled.</li>
     <li><b>No multiple choice.</b> Recognising an option is a weaker task than producing the answer. The mock exam simulator carries the scenario judgment; this deck carries the layer underneath it.</li>
     <li><b>Answer honestly.</b> Pressing Good on a card you half-knew is the fastest way to make the schedule useless.</li>
-    <li><b>Daily, 20–30 minutes.</b> Clear reviews first, then take the day's new cards. Two sessions of 15 minutes beat one of 30.</li>
+    <li><b>Daily, in two sittings.</b> Clear reviews first, then take the day's new cards. Twenty to thirty minutes covers a four-week run; a fortnight before the exam it is closer to forty, because the whole deck has to fit into half the time.</li>
   </ul>
   <div class="eyebrow" style="margin-bottom:8px">Who is studying?</div>
   <div class="profiles" id="profiles"></div>
   <div class="prow">
     <input id="newprofile" placeholder="New name" style="flex:1" maxlength="32">
+    <input id="newexam" type="date" title="Exam date (optional)" style="width:165px">
     <button class="primary" id="addprofile">Start</button>
   </div>
-  <p class="muted" style="font-size:12.5px;margin-top:18px">Each name keeps its own schedule in this browser only — nothing is uploaded, and several people can share one device. Use Backup inside a profile to move it to another machine.</p>
+  <p class="muted" style="font-size:12.5px;margin-top:10px">Adding your exam date sets the daily intake that covers the deck in time, and stops the scheduler pushing cards past the day you sit.</p>
+  <p class="muted" style="font-size:12.5px;margin-top:10px">Each name keeps its own schedule in this browser only — nothing is uploaded, and several people can share one device. Use Backup inside a profile to move it to another machine.</p>
 </div>
 
 <div id="shell">
@@ -189,6 +198,10 @@ textarea{width:100%;min-height:150px;font:12px/1.45 ui-monospace,Menlo,monospace
   <div class="wrap">
     <!-- HOME -->
     <div id="home">
+      <div class="panel" id="planpanel" style="display:none">
+        <div id="plan"></div>
+      </div>
+
       <div class="panel">
         <div class="dueline">
           <b class="num" id="duebig">0</b>
@@ -276,7 +289,7 @@ let profile = null, S = null;
 function freshState() {
   return {
     v: 1, created: Date.now(),
-    conf: { newPerDay: 20, maxRev: 200, retention: 0.90, rollover: 4, buryS: true, theme: 'auto' },
+    conf: { newPerDay: 20, maxRev: 200, retention: 0.90, rollover: 4, buryS: true, theme: 'auto', examDate: null },
     cards: {},          // id -> {s,due,S,D,ivl,reps,lapses,step,last}
     daily: { d: 0, newDone: 0, revDone: 0 },
     streak: { last: 0, n: 0 },
@@ -338,7 +351,29 @@ const initD = g => clampD(W[4] - Math.exp(W[5] * (g - 1)) + 1);
 const retr = (elapsedDays, s) => Math.pow(1 + FACTOR * elapsedDays / s, DECAY);
 function ivlDays(s, retention) {
   const i = (s / FACTOR) * (Math.pow(retention, 1 / DECAY) - 1);
-  return Math.min(Math.max(Math.round(i), 1), 3650);
+  return Math.min(Math.max(Math.round(i), 1), maxIvl());
+}
+// With an exam date set, an interval longer than the time remaining schedules a
+// card you will never see again before you sit. Cap so most cards come back at
+// least once more; in the last two days everything circulates daily.
+function daysLeft() {
+  if (!S.conf.examDate) return null;
+  const t = Date.parse(S.conf.examDate + 'T12:00:00');
+  if (isNaN(t)) return null;
+  return dayIdx(t) - today();
+}
+function maxIvl() {
+  const d = daysLeft();
+  if (d == null) return 3650;
+  return Math.max(1, Math.ceil(Math.max(0, d) * 0.7));
+}
+// New cards a day needed to see every unseen card before the exam.
+function newPerDayNeeded() {
+  const d = daysLeft();
+  if (d == null || d <= 0) return null;
+  const unseen = CARDS.filter(c => !S.cards[c.id] || S.cards[c.id].s === ST_NEW).length;
+  const intake = Math.max(1, d - 2);   // leave the last two days for reviews alone
+  return { unseen: unseen, days: d, perDay: Math.ceil(unseen / intake) };
 }
 function nextD(d, g) {
   const dd = d - W[6] * (g - 3);
@@ -570,6 +605,63 @@ function renderTopCounts() {
   return cap;
 }
 
+function renderPlan() {
+  const p = $('planpanel'), d = daysLeft();
+  if (d == null) { p.style.display = 'none'; return; }
+  p.style.display = '';
+  const rec = newPerDayNeeded();
+  const seen = CARDS.length - (rec ? rec.unseen : 0);
+  const box = $('plan'); box.innerHTML = '';
+  const head = el('div', 'countdown');
+  head.appendChild(el('b', 'num', d > 0 ? String(d) : '0'));
+  head.appendChild(el('span', '', d > 1 ? 'days until the exam · ' + esc(S.conf.examDate)
+    : d === 1 ? 'one day left · ' + esc(S.conf.examDate)
+    : d === 0 ? 'exam day' : 'exam date has passed'));
+  box.appendChild(head);
+
+  const v = el('div', 'verdict');
+  if (d <= 0) {
+    v.innerHTML = 'Clear the queue if you have time before you sit. Nothing schedules past today.';
+  } else if (!rec.unseen) {
+    v.innerHTML = 'All ' + CARDS.length + ' cards are in the schedule. Intervals are capped at <b>' +
+      maxIvl() + ' day' + (maxIvl() === 1 ? '' : 's') + '</b>, so everything comes back at least once more before you sit.';
+  } else if (d <= 2) {
+    v.innerHTML = '<b>' + rec.unseen + '</b> cards are still unseen with ' + (d === 1 ? 'a day' : d + ' days') +
+      ' to go. Taking them on now costs you the reviews that actually hold — leave them, clear the queue, and drill whatever the last simulator run put under 70%.';
+  } else {
+    const fits = rec.perDay <= 60;
+    v.innerHTML = '<b>' + seen + '</b> of ' + CARDS.length + ' cards started, <b>' + rec.unseen + '</b> still unseen. ' +
+      'Covering them all needs <b>' + rec.perDay + ' new a day</b> for the next ' + Math.max(1, d - 2) + ' days, ' +
+      'leaving the last two for reviews alone. ' +
+      (fits ? 'Current setting: ' + S.conf.newPerDay + ' a day.'
+            : '<span class="warn">That is past what a day can hold.</span> Drill <code>priority::high</code> alone instead — ' +
+              CARDS.filter(c => NOTES[c.n].p === 'high').length + ' cards — and treating the rest as optional.');
+    v.innerHTML += ' Intervals are capped at <b>' + maxIvl() + ' day' + (maxIvl() === 1 ? '' : 's') + '</b>.';
+  }
+  box.appendChild(v);
+
+  const act = el('div', 'act');
+  if (rec && rec.unseen && rec.perDay !== S.conf.newPerDay && rec.perDay <= 60 && d > 2) {
+    const b = el('button', 'primary', 'Set ' + rec.perDay + ' new a day');
+    b.onclick = () => {
+      S.conf.newPerDay = rec.perDay;
+      if (S.conf.maxRev < 400) S.conf.maxRev = 400;
+      saveNow(); renderHome();
+      toast('New cards set to ' + rec.perDay + ' a day, review cap raised to ' + S.conf.maxRev + '.');
+    };
+    act.appendChild(b);
+  }
+  if (rec && rec.unseen && (rec.perDay > 60 || d <= 2)) {
+    const b = el('button', '', 'Drill high priority only');
+    b.onclick = () => { runSearch('priority::high', 'high priority'); $('search').value = 'priority::high'; };
+    act.appendChild(b);
+  }
+  const ch = el('button', 'ghost', 'Change exam date');
+  ch.onclick = () => { renderSettings(); setTimeout(() => { const i = $('examdate'); if (i) { i.focus(); i.scrollIntoView({ block: 'center' }); } }, 30); };
+  act.appendChild(ch);
+  box.appendChild(act);
+}
+
 function renderHome() {
   rollDay();
   show('home');
@@ -592,6 +684,7 @@ function renderHome() {
   }
   $('clearfilter').style.display = filter ? '' : 'none';
 
+  renderPlan();
   const dl = $('decklist'); dl.innerHTML = '';
   DOMAINS.forEach(d => {
     const ids = CARDS.filter(c => NOTES[c.n].d === d.k).map(c => c.id);
@@ -868,15 +961,30 @@ function renderSettings() {
     r.appendChild(el('div', '', '<div class="lbl">' + label + '</div><div class="hint">' + hint + '</div>'));
     r.appendChild(ctrl); p.appendChild(r);
   }
+  const ed = el('input'); ed.type = 'date'; ed.id = 'examdate'; ed.value = S.conf.examDate || '';
+  ed.onchange = () => {
+    S.conf.examDate = ed.value || null;
+    saveNow(); renderSettings();
+    const d = daysLeft();
+    toast(d == null ? 'Exam date cleared — intervals are uncapped again.'
+                    : d + ' days to go. Intervals now cap at ' + maxIvl() + '.');
+  };
+  row('Exam date', 'Set it and nothing schedules past what you can still review: intervals cap at 70% of the days remaining, so every card comes back at least once more before you sit. Clear it to study open-endedly.', ed);
+
   const np = el('select');
-  [10, 15, 20, 25, 30, 35, 50].forEach(v => { const o = el('option', '', v); o.value = v; if (v === S.conf.newPerDay) o.selected = true; np.appendChild(o); });
+  const opts = [10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 80];
+  if (opts.indexOf(S.conf.newPerDay) < 0) opts.push(S.conf.newPerDay);
+  opts.sort((a, b) => a - b).forEach(v => { const o = el('option', '', v); o.value = v; if (v === S.conf.newPerDay) o.selected = true; np.appendChild(o); });
   np.onchange = () => { S.conf.newPerDay = +np.value; saveNow(); renderTopCounts(); };
-  row('New cards per day', '20 with four weeks or more to go; 35 with two to three. Above 35 the review load compounds past what is sustainable.', np);
+  const rec = newPerDayNeeded();
+  row('New cards per day',
+      '20 with four weeks or more to go; 35 with two to three. Past 40 the review load compounds, and a fortnight of it is a real commitment.' +
+      (rec && rec.unseen ? ' <b>' + rec.perDay + ' a day</b> covers the ' + rec.unseen + ' unseen cards before your exam date.' : ''), np);
 
   const mr = el('select');
-  [100, 150, 200, 300, 500, 9999].forEach(v => { const o = el('option', '', v === 9999 ? 'No limit' : v); o.value = v; if (v === S.conf.maxRev) o.selected = true; mr.appendChild(o); });
+  [100, 150, 200, 300, 400, 500, 9999].forEach(v => { const o = el('option', '', v === 9999 ? 'No limit' : v); o.value = v; if (v === S.conf.maxRev) o.selected = true; mr.appendChild(o); });
   mr.onchange = () => { S.conf.maxRev = +mr.value; saveNow(); renderTopCounts(); };
-  row('Maximum reviews per day', 'Leave headroom. A cap that bites creates a backlog you never clear.', mr);
+  row('Maximum reviews per day', 'Leave headroom. A cap that bites creates a backlog you never clear — and a short prep window needs a higher cap, not a lower one.', mr);
 
   const rt = el('select');
   [[0.85, '0.85 — lighter load'], [0.90, '0.90 — recommended'], [0.95, '0.95 — heavy']].forEach(([v, l]) => { const o = el('option', '', l); o.value = v; if (Math.abs(v - S.conf.retention) < 0.001) o.selected = true; rt.appendChild(o); });
@@ -1035,7 +1143,14 @@ function enter(name) {
 $('addprofile').onclick = () => {
   const v = $('newprofile').value.trim();
   if (!v) { $('newprofile').focus(); return; }
+  const d = $('newexam').value;
   enter(v);
+  if (d) {
+    S.conf.examDate = d;
+    const rec = newPerDayNeeded();
+    if (rec && rec.perDay > S.conf.newPerDay) { S.conf.newPerDay = rec.perDay; if (S.conf.maxRev < 400) S.conf.maxRev = 400; }
+    saveNow(); renderHome();
+  }
 };
 $('newprofile').addEventListener('keydown', e => { if (e.key === 'Enter') $('addprofile').click(); });
 $('nav-home').onclick = renderHome;
