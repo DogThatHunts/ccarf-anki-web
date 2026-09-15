@@ -1,0 +1,1079 @@
+<meta charset="utf-8">
+<title>CCAR-F Study Deck</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Spaced-repetition deck for the Claude Certified Architect – Foundations exam.">
+<style>
+:root{
+  --bg:#f6f7f6; --surface:#ffffff; --ink:#21272b; --muted:#5d686e; --line:#dce2df;
+  --accent:#0e6e64; --accent-soft:#e3efed; --accent-ink:#ffffff;
+  --good:#2e7d4f; --good-bg:#e8f2ec; --bad:#b3413a; --bad-bg:#f7e9e8;
+  --flag:#a97a1e; --flag-bg:#f6eedd; --new:#2f6fb3; --new-bg:#e6eef7;
+  --shadow:0 1px 3px rgba(30,40,38,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14181a; --surface:#1c2226; --ink:#e3e8e6; --muted:#94a09b; --line:#2c3438;
+    --accent:#3aa393; --accent-soft:#1e3330; --accent-ink:#0d1614;
+    --good:#5cb885; --good-bg:#1e2f26; --bad:#e07b72; --bad-bg:#33211f;
+    --flag:#d9a441; --flag-bg:#31291a; --new:#6ea8e0; --new-bg:#1b2836;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14181a; --surface:#1c2226; --ink:#e3e8e6; --muted:#94a09b; --line:#2c3438;
+  --accent:#3aa393; --accent-soft:#1e3330; --accent-ink:#0d1614;
+  --good:#5cb885; --good-bg:#1e2f26; --bad:#e07b72; --bad-bg:#33211f;
+  --flag:#d9a441; --flag-bg:#31291a; --new:#6ea8e0; --new-bg:#1b2836;
+  --shadow:0 1px 3px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;background:var(--accent-soft);padding:.08em .35em;border-radius:4px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:8px 16px}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+button.ghost{background:transparent}
+button:disabled{opacity:.45;cursor:default}
+input,select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 10px}
+a{color:var(--accent)}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.hide{display:none !important}
+h1,h2,h3{font-family:Charter,'Iowan Old Style',Georgia,serif;font-weight:600}
+
+/* ---------- intro / profiles ---------- */
+#intro{max-width:660px;margin:0 auto;padding:48px 24px 80px}
+#intro h1{font-size:34px;line-height:1.15;margin:8px 0 6px;text-wrap:balance}
+#intro .sub{color:var(--muted);margin:0 0 26px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:0 0 26px}
+.facts div{background:var(--surface);padding:12px 14px}
+.facts b{display:block;font-size:19px}
+.facts span{font-size:12px;color:var(--muted)}
+.rules{border-left:3px solid var(--accent);padding:2px 0 2px 16px;margin:0 0 28px;color:var(--muted);font-size:14px}
+.rules li{margin:5px 0}
+.profiles{display:flex;flex-direction:column;gap:8px;margin:0 0 18px}
+.prow{display:flex;gap:8px;align-items:center}
+.prow button.pname{flex:1;text-align:left;font-weight:600}
+.prow .psub{font-weight:400;color:var(--muted);font-size:12.5px;margin-left:8px}
+
+/* ---------- shell ---------- */
+#shell{display:none;min-height:100vh}
+#topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+#topbar .title{font-weight:700;font-size:14px;white-space:nowrap}
+#topbar .spacer{flex:1}
+#topbar button{padding:5px 11px;font-size:13px}
+.counts{display:flex;gap:10px;font-size:13px;font-weight:700}
+.counts .c-new{color:var(--new)} .counts .c-lrn{color:var(--bad)} .counts .c-rev{color:var(--good)}
+.wrap{max-width:820px;margin:0 auto;padding:22px 18px 90px}
+
+/* ---------- home ---------- */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:16px 18px;margin:0 0 16px}
+.panel h2{margin:0 0 12px;font-size:18px}
+.dueline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:0 0 14px}
+.dueline b{font-size:30px;line-height:1}
+.deckrow{display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px;align-items:center;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
+.deckrow:first-of-type{border-top:none}
+.deckrow .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.deckrow .n{width:34px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.deckrow button{padding:4px 10px;font-size:12.5px}
+.tagwrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 11px;font-size:12.5px;cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.searchrow{display:flex;gap:8px;margin:0 0 10px}
+.searchrow input{flex:1}
+
+/* ---------- study ---------- */
+#study{display:none}
+#studybar{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted);margin:0 0 14px;flex-wrap:wrap}
+.pill{border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:600;background:var(--accent-soft);color:var(--accent)}
+.pill.new{background:var(--new-bg);color:var(--new)}
+.pill.lrn{background:var(--bad-bg);color:var(--bad)}
+.pill.rev{background:var(--good-bg);color:var(--good)}
+.pill.leech{background:var(--flag-bg);color:var(--flag)}
+#cardbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);padding:26px 26px 24px;min-height:220px}
+.q{font-size:19px;line-height:1.5;font-weight:600}
+.a{margin-top:4px;font-size:17px;line-height:1.6}
+hr.sep{border:none;border-top:1px solid var(--line);margin:18px 0 14px}
+.ref{margin-top:22px;font-size:12.5px;color:var(--muted)}
+.cl{color:var(--accent);font-weight:700}
+.cl.blank{letter-spacing:.06em}
+#answerbar{margin:18px 0 0;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+#answerbar button{flex:1;min-width:112px;max-width:180px;padding:11px 6px;display:flex;flex-direction:column;align-items:center;gap:3px;font-weight:600}
+#answerbar .iv{font-size:11.5px;font-weight:600;opacity:.75}
+#answerbar .g1{border-color:var(--bad);color:var(--bad)}
+#answerbar .g4{border-color:var(--good);color:var(--good)}
+#revealbar{margin:18px 0 0;display:flex;justify-content:center}
+#revealbar button{min-width:260px;padding:12px}
+.kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;font-size:11px;font-family:ui-monospace,Menlo,monospace;color:var(--muted)}
+#donebox{text-align:center;padding:44px 20px}
+#donebox h2{font-size:24px;margin:0 0 8px}
+
+/* ---------- stats ---------- */
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.grid4 div{background:var(--surface);padding:12px 14px}
+.grid4 b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.grid4 span{font-size:12px;color:var(--muted)}
+.bars{margin-top:14px}
+.bar{display:grid;grid-template-columns:86px 1fr 86px;gap:10px;align-items:center;font-size:13px;padding:3px 0}
+.bar .track{background:var(--line);border-radius:4px;height:9px;overflow:hidden}
+.bar .fill{background:var(--accent);height:100%}
+.bar .fill.warn{background:var(--flag)}
+.bar .fill.bad{background:var(--bad)}
+.bar .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+.fc{display:flex;align-items:flex-end;gap:2px;height:90px;margin-top:10px}
+.fc i{flex:1;background:var(--accent);border-radius:2px 2px 0 0;min-height:1px;display:block}
+.fc-ax{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+table.tbl th,table.tbl td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+table.tbl th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+table.tbl td.n{text-align:right;font-variant-numeric:tabular-nums}
+
+/* ---------- settings / modal ---------- */
+.frow{display:grid;grid-template-columns:1fr 130px;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.frow:first-of-type{border-top:none}
+.frow .lbl{font-size:14px}
+.frow .hint{font-size:12px;color:var(--muted);margin-top:2px}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:13.5px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:40;max-width:min(92vw,460px);text-align:center}
+#toast.bad{background:var(--bad);color:#fff}
+#modal{position:fixed;inset:0;background:rgba(10,14,16,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+#modal.on{display:flex}
+#modalbox{background:var(--surface);border-radius:12px;max-width:560px;width:100%;max-height:86vh;overflow:auto;padding:20px 22px}
+#modalbox h2{margin:0 0 10px;font-size:19px}
+textarea{width:100%;min-height:150px;font:12px/1.45 ui-monospace,Menlo,monospace;border:1px solid var(--line);border-radius:6px;padding:8px;background:var(--bg);color:var(--ink)}
+.right{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+@media (max-width:560px){
+  #cardbox{padding:20px 16px}
+  .q{font-size:17.5px} .a{font-size:16px}
+  #answerbar button{min-width:calc(50% - 4px)}
+  .deckrow{grid-template-columns:1fr auto auto auto auto;font-size:13px}
+}
+</style>
+
+<div id="intro">
+  <div class="eyebrow">Claude Certified Architect · Foundations</div>
+  <h1>CCAR-F Study Deck</h1>
+  <p class="sub">Spaced repetition over the atomic layer of the exam: mechanisms, trigger conditions, and the reason each anti-pattern fails.</p>
+  <div class="facts" id="introfacts"></div>
+  <ul class="rules">
+    <li><b>One card, one fact.</b> Every card answers in under ten seconds. A card holding four facts cannot be scheduled.</li>
+    <li><b>No multiple choice.</b> Recognising an option is a weaker task than producing the answer. The mock exam simulator carries the scenario judgment; this deck carries the layer underneath it.</li>
+    <li><b>Answer honestly.</b> Pressing Good on a card you half-knew is the fastest way to make the schedule useless.</li>
+    <li><b>Daily, 20–30 minutes.</b> Clear reviews first, then take the day's new cards. Two sessions of 15 minutes beat one of 30.</li>
+  </ul>
+  <div class="eyebrow" style="margin-bottom:8px">Who is studying?</div>
+  <div class="profiles" id="profiles"></div>
+  <div class="prow">
+    <input id="newprofile" placeholder="New name" style="flex:1" maxlength="32">
+    <button class="primary" id="addprofile">Start</button>
+  </div>
+  <p class="muted" style="font-size:12.5px;margin-top:18px">Each name keeps its own schedule in this browser only — nothing is uploaded, and several people can share one device. Use Backup inside a profile to move it to another machine.</p>
+</div>
+
+<div id="shell">
+  <div id="topbar">
+    <span class="title">CCAR-F</span>
+    <span class="counts">
+      <span class="c-new num" id="tc-new">0</span>
+      <span class="c-lrn num" id="tc-lrn">0</span>
+      <span class="c-rev num" id="tc-rev">0</span>
+    </span>
+    <span class="spacer"></span>
+    <button class="ghost" id="nav-home">Decks</button>
+    <button class="ghost" id="nav-stats">Stats</button>
+    <button class="ghost" id="nav-set">Settings</button>
+  </div>
+
+  <div class="wrap">
+    <!-- HOME -->
+    <div id="home">
+      <div class="panel">
+        <div class="dueline">
+          <b class="num" id="duebig">0</b>
+          <span class="muted" id="duesub">cards due right now</span>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="primary" id="studyall">Study</button>
+          <button class="ghost" id="cramall" style="display:none">Drill all</button>
+          <button class="ghost" id="clearfilter">All decks</button>
+        </div>
+        <div style="margin-top:14px" id="decklist"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Custom study</h2>
+        <div class="searchrow">
+          <input id="search" placeholder="tag:ts::3_1   priority::high   -scope::background   is:leech">
+          <button id="dosearch">Go</button>
+        </div>
+        <div class="muted" style="font-size:12.5px" id="searchinfo">After a simulator run, take every objective below 70% and study that tag alone.</div>
+        <div class="eyebrow" style="margin-top:16px">Task statement</div>
+        <div class="tagwrap" id="tschips"></div>
+        <div class="eyebrow" style="margin-top:14px">Card class</div>
+        <div class="tagwrap" id="classchips"></div>
+      </div>
+    </div>
+
+    <!-- STUDY -->
+    <div id="study">
+      <div id="studybar"></div>
+      <div id="cardbox"></div>
+      <div id="revealbar"><button class="primary" id="reveal">Show answer <span class="kbd">space</span></button></div>
+      <div id="answerbar" class="hide"></div>
+      <div style="margin-top:16px;display:flex;gap:8px;justify-content:center">
+        <button class="ghost" id="undo">Undo</button>
+        <button class="ghost" id="endsession">End session</button>
+      </div>
+    </div>
+
+    <div id="donebox" style="display:none">
+      <h2 id="donetitle">Queue clear</h2>
+      <p class="muted" id="donesub"></p>
+      <div style="margin-top:18px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button class="primary" id="donehome">Back to decks</button>
+        <button class="ghost" id="doneextra">Study ahead</button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div id="stats" style="display:none"></div>
+
+    <!-- SETTINGS -->
+    <div id="settings" style="display:none"></div>
+  </div>
+</div>
+
+<div id="modal"><div id="modalbox"></div></div>
+
+<script>
+"use strict";
+const DATA = __DATA__;
+
+/* ============================ card list ============================ */
+const NOTES = DATA.notes;
+const CARDS = [];
+NOTES.forEach((n, i) => {
+  if (n.ty === 'c') n.o.forEach(o => CARDS.push({ id: i + ':' + o, n: i, o: o }));
+  else CARDS.push({ id: i + ':0', n: i, o: 0 });
+});
+const BYID = {}; CARDS.forEach((c, k) => { c.k = k; BYID[c.id] = c; });
+const DOMAINS = DATA.domains;
+const TSLIST = DATA.tslist;
+const CLASSES = DATA.classes;
+
+/* ============================ storage ============================ */
+const LS_PROFILES = 'ccarf.deck.profiles';
+const LS_CURRENT = 'ccarf.deck.current';
+const pkey = name => 'ccarf.deck.p.' + name;
+
+function lsGet(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { toast('Could not save progress — browser storage is full or blocked.', true); return false; } }
+
+let profile = null, S = null;
+
+function freshState() {
+  return {
+    v: 1, created: Date.now(),
+    conf: { newPerDay: 20, maxRev: 200, retention: 0.90, rollover: 4, buryS: true, theme: 'auto' },
+    cards: {},          // id -> {s,due,S,D,ivl,reps,lapses,step,last}
+    daily: { d: 0, newDone: 0, revDone: 0 },
+    streak: { last: 0, n: 0 },
+    log: [],            // [dayIdxMs, cardId, grade, state]
+    bury: {}            // noteIdx -> dayIdx
+  };
+}
+
+function loadProfile(name) {
+  profile = name;
+  S = lsGet(pkey(name), null) || freshState();
+  S.conf = Object.assign(freshState().conf, S.conf || {});
+  localStorage.setItem(LS_CURRENT, JSON.stringify(name));
+  applyTheme();
+  rollDay();
+}
+let saveTimer = null;
+function save() { clearTimeout(saveTimer); saveTimer = setTimeout(() => lsSet(pkey(profile), S), 120); }
+function saveNow() { clearTimeout(saveTimer); lsSet(pkey(profile), S); }
+
+/* ============================ time ============================ */
+const DAY = 86400000;
+function dayIdx(t) {
+  const d = new Date(t == null ? Date.now() : t);
+  d.setHours(d.getHours() - S.conf.rollover);
+  return Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / DAY);
+}
+function today() { return dayIdx(); }
+function rollDay() {
+  const t = today();
+  if (S.daily.d !== t) {
+    if (S.daily.d && (S.daily.newDone || S.daily.revDone)) {
+      S.streak.n = (S.streak.last === S.daily.d) ? S.streak.n : S.streak.n;
+    }
+    S.daily = { d: t, newDone: 0, revDone: 0 };
+    for (const k in S.bury) if (S.bury[k] < t) delete S.bury[k];
+    save();
+  }
+}
+function fmtIvl(ms) {
+  if (ms < 60000) return '<1m';
+  if (ms < 3600000) return Math.round(ms / 60000) + 'm';
+  if (ms < DAY) return Math.round(ms / 3600000) + 'h';
+  const d = ms / DAY;
+  if (d < 30) return (d < 10 ? d.toFixed(d % 1 && d < 3 ? 1 : 0) : Math.round(d)) + 'd';
+  if (d < 365) return (d / 30.4).toFixed(1) + 'mo';
+  return (d / 365).toFixed(1) + 'y';
+}
+
+/* ============================ FSRS-5 ============================ */
+const W = [0.40255,1.18385,3.173,15.69105,7.1949,0.5345,1.4604,0.0046,1.54575,0.1192,
+           1.01925,1.9395,0.11,0.29605,2.2698,0.2315,2.9898,0.51655,0.6621];
+const DECAY = -0.5, FACTOR = Math.pow(0.9, 1 / DECAY) - 1;
+const clampD = d => Math.min(Math.max(d, 1), 10);
+const clampS = s => Math.min(Math.max(s, 0.01), 36500);
+
+const initS = g => clampS(W[g - 1]);
+const initD = g => clampD(W[4] - Math.exp(W[5] * (g - 1)) + 1);
+const retr = (elapsedDays, s) => Math.pow(1 + FACTOR * elapsedDays / s, DECAY);
+function ivlDays(s, retention) {
+  const i = (s / FACTOR) * (Math.pow(retention, 1 / DECAY) - 1);
+  return Math.min(Math.max(Math.round(i), 1), 3650);
+}
+function nextD(d, g) {
+  const dd = d - W[6] * (g - 3);
+  const linear = d + (dd - d) * (10 - d) / 9;     // mean reversion damping
+  return clampD(W[7] * initD(4) + (1 - W[7]) * linear);
+}
+function nextSrecall(d, s, r, g) {
+  const hard = g === 2 ? W[15] : 1, easy = g === 4 ? W[16] : 1;
+  return clampS(s * (1 + Math.exp(W[8]) * (11 - d) * Math.pow(s, -W[9]) *
+    (Math.exp(W[10] * (1 - r)) - 1) * hard * easy));
+}
+function nextSforget(d, s, r) {
+  const sf = W[11] * Math.pow(d, -W[12]) * (Math.pow(s + 1, W[13]) - 1) * Math.exp(W[14] * (1 - r));
+  return clampS(Math.min(sf, s));
+}
+const nextSshort = (s, g) => clampS(s * Math.exp(W[17] * (g - 3 + W[18])));
+
+/* ============================ scheduler ============================ */
+const LEARN_STEPS = [25 * 60000, DAY];     // 25m, 1d
+const RELEARN_STEPS = [20 * 60000, DAY];   // 20m, 1d
+const LEECH = 6;
+const ST_NEW = 0, ST_LRN = 1, ST_REV = 2, ST_RELRN = 3;
+
+function cardState(id) {
+  return S.cards[id] || { s: ST_NEW, due: 0, S: 0, D: 0, ivl: 0, reps: 0, lapses: 0, step: 0, last: 0 };
+}
+function elapsed(c, now) { return c.last ? Math.max(0, (now - c.last) / DAY) : 0; }
+
+// Returns {s,due,S,D,ivl,step,...} preview for a grade without committing.
+function schedule(c, g, now) {
+  const n = Object.assign({}, c);
+  n.reps = c.reps + 1; n.last = now;
+  if (c.s === ST_NEW) {
+    n.S = initS(g); n.D = initD(g);
+    if (g === 4) { n.s = ST_REV; n.ivl = ivlDays(n.S, S.conf.retention); n.due = now + n.ivl * DAY; n.step = 0; }
+    else { n.s = ST_LRN; n.step = (g >= 3) ? 1 : 0; n.due = now + LEARN_STEPS[Math.min(n.step, LEARN_STEPS.length - 1)]; n.ivl = 0; }
+    return n;
+  }
+  if (c.s === ST_LRN || c.s === ST_RELRN) {
+    const steps = c.s === ST_LRN ? LEARN_STEPS : RELEARN_STEPS;
+    n.S = clampS(nextSshort(c.S || initS(g), g));
+    n.D = clampD(nextD(c.D || initD(g), g));
+    let step = c.step;
+    if (g === 1) step = 0;
+    else if (g === 2) step = Math.max(0, step);
+    else if (g === 3) step = step + 1;
+    if (g === 4 || (g === 3 && step >= steps.length)) {
+      n.s = ST_REV; n.step = 0;
+      n.ivl = ivlDays(n.S, S.conf.retention);
+      if (g === 4) n.ivl = Math.max(n.ivl, 1);
+      n.due = now + n.ivl * DAY;
+    } else {
+      n.step = step; n.s = c.s;
+      n.due = now + steps[Math.min(step, steps.length - 1)];
+      n.ivl = 0;
+    }
+    return n;
+  }
+  // review
+  const el_ = elapsed(c, now);
+  const r = retr(el_, c.S || 1);
+  if (g === 1) {
+    n.lapses = c.lapses + 1;
+    n.S = nextSforget(c.D, c.S, r);
+    n.D = nextD(c.D, 1);
+    n.s = ST_RELRN; n.step = 0; n.ivl = 0;
+    n.due = now + RELEARN_STEPS[0];
+    return n;
+  }
+  n.S = reviewS(c, g, el_, r);
+  n.D = nextD(c.D, g);
+  n.s = ST_REV; n.step = 0;
+  n.ivl = reviewIvls(c, el_, r)[g];
+  n.due = now + n.ivl * DAY;
+  return n;
+}
+// A review answered before it is due has R near 1, which zeroes the FSRS growth
+// term and would return the same interval for Hard, Good and Easy. Under a day
+// elapsed, use the short-term formula, which does separate the grades.
+function reviewS(c, g, elapsedDays, r) {
+  return elapsedDays < 1 ? nextSshort(c.S || 1, g) : nextSrecall(c.D, c.S, r, g);
+}
+// Hard < Good < Easy, always.
+function reviewIvls(c, elapsedDays, r) {
+  const raw = {};
+  [2, 3, 4].forEach(g => { raw[g] = ivlDays(reviewS(c, g, elapsedDays, r), S.conf.retention); });
+  const prev = c.ivl || 1;
+  const good = Math.max(1, raw[3]);
+  const hard = Math.max(1, Math.min(raw[2], good, Math.round(prev * 1.2)));
+  const easy = Math.max(raw[4], good + 1);
+  return { 2: hard, 3: good, 4: Math.min(easy, 3650) };
+}
+function previewIvl(c, g) {
+  const now = Date.now(), n = schedule(c, g, now);
+  return fmtIvl(Math.max(0, n.due - now));
+}
+const isLeech = c => c.lapses >= LEECH;
+
+/* ============================ queue ============================ */
+let filter = null;          // {label, ids:[cardId]} or null = whole deck
+let session = null;         // {ids, i, custom:bool, done:0}
+let current = null, shown = false, lastAnswer = null;
+
+function cardMatchesFilter(c) { return !filter || filter.set.has(c.id); }
+function buried(c) { return S.conf.buryS && S.bury[c.n] === today(); }
+
+function queueCounts(ids) {
+  const now = Date.now(); let nw = 0, lrn = 0, rev = 0;
+  (ids || CARDS.map(c => c.id)).forEach(id => {
+    const c = S.cards[id] || null, card = BYID[id];
+    if (buried(card)) return;
+    if (!c || c.s === ST_NEW) nw++;
+    else if (c.s === ST_LRN || c.s === ST_RELRN) { if (c.due <= now) lrn++; }
+    else if (c.due <= now) rev++;
+  });
+  return { nw, lrn, rev };
+}
+
+function buildQueue(ids, custom) {
+  const now = Date.now();
+  const pool = (ids || CARDS.map(c => c.id)).filter(id => !buried(BYID[id]));
+  const lrn = [], rev = [], nw = [];
+  pool.forEach(id => {
+    const c = S.cards[id];
+    if (!c || c.s === ST_NEW) nw.push(id);
+    else if (c.s === ST_LRN || c.s === ST_RELRN) { if (c.due <= now + 60000) lrn.push(id); }
+    else if (c.due <= now) rev.push(id);
+  });
+  lrn.sort((a, b) => (S.cards[a].due) - (S.cards[b].due));
+  rev.sort((a, b) => (S.cards[a].due) - (S.cards[b].due));
+  // new cards in deck order, high priority first
+  nw.sort((a, b) => {
+    const A = NOTES[BYID[a].n], B = NOTES[BYID[b].n];
+    if (A.p !== B.p) return A.p === 'high' ? -1 : 1;
+    return BYID[a].k - BYID[b].k;
+  });
+  let revCap = custom ? rev.length : Math.max(0, S.conf.maxRev - S.daily.revDone);
+  let newCap = custom ? nw.length : Math.max(0, S.conf.newPerDay - S.daily.newDone);
+  const revQ = rev.slice(0, revCap), newQ = nw.slice(0, newCap);
+  // interleave new into reviews so a session is not front-loaded
+  const out = lrn.concat(revQ);
+  if (newQ.length) {
+    const every = out.length ? Math.max(1, Math.round(out.length / newQ.length)) : 1;
+    const merged = []; let ni = 0;
+    for (let i = 0; i < out.length; i++) {
+      merged.push(out[i]);
+      if (ni < newQ.length && (i + 1) % every === 0) merged.push(newQ[ni++]);
+    }
+    while (ni < newQ.length) merged.push(newQ[ni++]);
+    return merged;
+  }
+  return out;
+}
+
+function buildCram(ids) {
+  const now = Date.now();
+  const pool = ids.filter(id => !buried(BYID[id]));
+  const due = [], fresh = [], ahead = [];
+  pool.forEach(id => {
+    const c = S.cards[id];
+    if (!c || c.s === ST_NEW) fresh.push(id);
+    else if (c.due <= now) due.push(id);
+    else ahead.push(id);
+  });
+  due.sort((a, b) => S.cards[a].due - S.cards[b].due);
+  fresh.sort((a, b) => BYID[a].k - BYID[b].k);
+  // least-remembered first: lowest retrievability at the front
+  ahead.sort((a, b) => {
+    const A = S.cards[a], B = S.cards[b];
+    return retr(elapsed(A, now), A.S || 1) - retr(elapsed(B, now), B.S || 1);
+  });
+  return due.concat(fresh, ahead);
+}
+
+/* ============================ search ============================ */
+function parseSearch(q) {
+  const terms = (q || '').trim().split(/\s+/).filter(Boolean);
+  if (!terms.length) return null;
+  const preds = terms.map(t => {
+    let neg = false;
+    if (t[0] === '-') { neg = true; t = t.slice(1); }
+    let p;
+    const low = t.toLowerCase();
+    if (low.startsWith('tag:')) { const v = low.slice(4); p = c => tagsOf(c).some(x => x === v || x.startsWith(v + '::')); }
+    else if (low === 'is:new') p = c => !S.cards[c.id] || S.cards[c.id].s === ST_NEW;
+    else if (low === 'is:due') p = c => S.cards[c.id] && S.cards[c.id].s !== ST_NEW && S.cards[c.id].due <= Date.now();
+    else if (low === 'is:learn') p = c => S.cards[c.id] && (S.cards[c.id].s === ST_LRN || S.cards[c.id].s === ST_RELRN);
+    else if (low === 'is:review') p = c => S.cards[c.id] && S.cards[c.id].s === ST_REV;
+    else if (low === 'is:leech') p = c => S.cards[c.id] && isLeech(S.cards[c.id]);
+    else if (low === 'is:suspended') p = () => false;
+    else if (low.includes('::')) p = c => tagsOf(c).some(x => x === low);
+    else { p = c => plainOf(c).includes(low); }
+    return neg ? (c => !p(c)) : p;
+  });
+  return c => preds.every(f => f(c));
+}
+function tagsOf(c) {
+  const n = NOTES[c.n];
+  const t = ['ts::' + n.ts.replace('.', '_'), 'domain::' + n.d, 'priority::' + n.p, 'class::' + n.c];
+  if (n.sc) t.push('scope::' + n.sc);
+  return t;
+}
+function plainOf(c) {
+  const n = NOTES[c.n];
+  if (n._plain) return n._plain;
+  const f = n.ty === 'c' ? n.f.map(p => typeof p === 'string' ? p : p[1]).join(' ') : n.f;
+  n._plain = (f + ' ' + (n.b || '')).replace(/<[^>]+>/g, '').toLowerCase();
+  return n._plain;
+}
+function runSearch(q, label) {
+  const pred = parseSearch(q);
+  if (!pred) { setFilter(null); return; }
+  const ids = CARDS.filter(pred).map(c => c.id);
+  setFilter({ label: label || q, q: q, ids: ids });
+}
+function setFilter(f) {
+  filter = f ? Object.assign({}, f, { set: new Set(f.ids) }) : null;
+  renderHome();
+}
+
+/* ============================ rendering ============================ */
+const $ = id => document.getElementById(id);
+function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+
+function renderTopCounts() {
+  const c = queueCounts(filter ? filter.ids : null);
+  const cap = { nw: Math.min(c.nw, Math.max(0, S.conf.newPerDay - S.daily.newDone)), lrn: c.lrn, rev: Math.min(c.rev, Math.max(0, S.conf.maxRev - S.daily.revDone)) };
+  $('tc-new').textContent = cap.nw; $('tc-lrn').textContent = cap.lrn; $('tc-rev').textContent = cap.rev;
+  return cap;
+}
+
+function renderHome() {
+  rollDay();
+  show('home');
+  const cap = renderTopCounts();
+  const tot = cap.nw + cap.lrn + cap.rev;
+  $('duebig').textContent = tot;
+  $('duesub').innerHTML = (filter ? 'cards in <b>' + esc(filter.label) + '</b>' : 'cards due right now') +
+    ' · <span class="muted">' + cap.nw + ' new, ' + cap.lrn + ' learning, ' + cap.rev + ' review</span>';
+  if (filter) {
+    $('studyall').disabled = false;
+    $('studyall').textContent = tot ? 'Study ' + filter.label + ' · ' + tot + ' due' : 'Study ' + filter.label;
+    $('studyall').onclick = () => startSession(false);
+    $('cramall').style.display = '';
+    $('cramall').textContent = tot ? 'Drill all ' + filter.ids.length : 'Drill all ' + filter.ids.length + ' cards';
+  } else {
+    $('studyall').disabled = tot === 0;
+    $('studyall').textContent = tot === 0 ? 'Nothing due' : 'Study';
+    $('studyall').onclick = () => startSession(false);
+    $('cramall').style.display = 'none';
+  }
+  $('clearfilter').style.display = filter ? '' : 'none';
+
+  const dl = $('decklist'); dl.innerHTML = '';
+  DOMAINS.forEach(d => {
+    const ids = CARDS.filter(c => NOTES[c.n].d === d.k).map(c => c.id);
+    const c = queueCounts(ids);
+    const row = el('div', 'deckrow');
+    row.appendChild(el('div', 'nm', esc(d.name)));
+    row.appendChild(el('div', 'n', '<span style="color:var(--new)">' + c.nw + '</span>'));
+    row.appendChild(el('div', 'n', '<span style="color:var(--bad)">' + c.lrn + '</span>'));
+    row.appendChild(el('div', 'n', '<span style="color:var(--good)">' + c.rev + '</span>'));
+    const b = el('button', 'ghost', 'Study');
+    b.onclick = () => { setFilter({ label: d.k, ids: ids }); startSession(false); };
+    row.appendChild(b);
+    dl.appendChild(row);
+  });
+
+  const ts = $('tschips'); ts.innerHTML = '';
+  TSLIST.forEach(t => {
+    const tag = 'ts::' + t.replace('.', '_');
+    const ch = el('button', 'chip' + (filter && filter.q === 'tag:' + tag ? ' on' : ''), t === 'exam' ? 'Exam technique' : 'TS ' + t);
+    ch.onclick = () => { runSearch('tag:' + tag, 'TS ' + t); $('search').value = 'tag:' + tag; };
+    ts.appendChild(ch);
+  });
+  const cc = $('classchips'); cc.innerHTML = '';
+  CLASSES.concat(['priority::high', 'is:leech']).forEach(t => {
+    const tag = t.includes('::') || t.includes(':') ? t : 'class::' + t;
+    const ch = el('button', 'chip' + (filter && filter.q === tag ? ' on' : ''), tag.replace('class::', '').replace('priority::', '').replace('is:', ''));
+    ch.onclick = () => { runSearch(tag, tag.split(/::|:/).pop()); $('search').value = tag; };
+    cc.appendChild(ch);
+  });
+  $('searchinfo').textContent = filter
+    ? filter.ids.length + ' cards match ' + filter.q
+    : 'After a simulator run, take every objective below 70% and study that tag alone.';
+}
+
+function show(which) {
+  ['home', 'study', 'stats', 'settings', 'donebox'].forEach(k => $(k).style.display = k === which ? (k === 'study' ? 'block' : 'block') : 'none');
+  window.scrollTo(0, 0);
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m])); }
+
+/* ---------- study ---------- */
+function startSession(custom, cram) {
+  const ids = cram && filter ? buildCram(filter.ids) : buildQueue(filter ? filter.ids : null, !!custom);
+  if (!ids.length) { showDone(); return; }
+  session = { ids: ids, i: 0, custom: !!custom || !!cram, cram: !!cram, done: 0, total: ids.length };
+  nextCard();
+}
+function nextCard() {
+  rollDay();
+  // rebuild dynamically: learning cards re-enter the queue
+  const now = Date.now();
+  const answeredHere = session.seen || (session.seen = new Set());
+  const pool = session.ids.filter(id => {
+    const c = S.cards[id];
+    if (!c || c.s === ST_NEW) return true;
+    if (c.s === ST_LRN || c.s === ST_RELRN) return true;
+    if (session.cram) return !answeredHere.has(id);
+    return c.due <= now;
+  });
+  const ready = pool.filter(id => {
+    const c = S.cards[id];
+    if (!c || c.s === ST_NEW) return true;
+    if (c.due <= now + 1000) return true;
+    return session.cram && !answeredHere.has(id);
+  });
+  if (!ready.length) { showDone(); return; }
+  // prefer overdue learning, then order of queue
+  ready.sort((a, b) => session.ids.indexOf(a) - session.ids.indexOf(b));
+  const lrnDue = ready.filter(id => S.cards[id] && (S.cards[id].s === ST_LRN || S.cards[id].s === ST_RELRN) && S.cards[id].due <= now);
+  if (session.cram) { current = BYID[lrnDue.length ? lrnDue[0] : ready[0]]; shown = false; renderCard(); show('study'); return; }
+  current = BYID[lrnDue.length ? lrnDue[0] : ready[0]];
+  shown = false;
+  renderCard();
+  show('study');
+}
+
+function renderCard() {
+  const n = NOTES[current.n], c = cardState(current.id);
+  const bar = $('studybar'); bar.innerHTML = '';
+  const st = c.s === ST_NEW ? ['new', 'New'] : c.s === ST_LRN ? ['lrn', 'Learning'] : c.s === ST_RELRN ? ['lrn', 'Relearning'] : ['rev', 'Review'];
+  bar.appendChild(el('span', 'pill ' + st[0], st[1]));
+  bar.appendChild(el('span', '', esc(n.d === 'EXAM' ? 'Exam technique' : n.d) + ' · TS ' + esc(n.ts) + ' · ' + esc(n.c)));
+  if (n.p === 'high') bar.appendChild(el('span', 'pill', 'high priority'));
+  if (n.sc) bar.appendChild(el('span', 'pill leech', 'background'));
+  if (isLeech(c)) bar.appendChild(el('span', 'pill leech', 'leech · ' + c.lapses + ' lapses'));
+  bar.appendChild(el('span', '', '<span class="muted" style="margin-left:auto">' + (session.done + 1) + ' / ~' + session.total + '</span>'));
+
+  const box = $('cardbox');
+  box.innerHTML = '<div class="q">' + frontHTML(n, current.o, shown) + '</div>';
+  if (shown) {
+    if (n.ty !== 'c') box.appendChild(el('hr', 'sep'));
+    if (n.b) box.appendChild(el('div', 'a', n.b));
+    if (n.r) box.appendChild(el('div', 'ref', n.r));
+  }
+  $('revealbar').className = shown ? 'hide' : '';
+  $('answerbar').className = shown ? '' : 'hide';
+  if (shown) renderGrades(c);
+  $('undo').disabled = !lastAnswer;
+}
+function frontHTML(n, ord, revealed) {
+  if (n.ty !== 'c') return n.f;
+  return n.f.map(p => {
+    if (typeof p === 'string') return p;
+    if (p[0] !== ord) return p[1];
+    return revealed ? '<span class="cl">' + p[1] + '</span>' : '<span class="cl blank">[ ' + (p[2] ? esc(p[2]) : '...') + ' ]</span>';
+  }).join('');
+}
+const GRADES = [[1, 'Again', 'g1'], [2, 'Hard', ''], [3, 'Good', ''], [4, 'Easy', 'g4']];
+function renderGrades(c) {
+  const bar = $('answerbar'); bar.innerHTML = '';
+  GRADES.forEach(([g, label, cls]) => {
+    const b = el('button', cls, '<span>' + label + '</span><span class="iv">' + previewIvl(c, g) + '</span>');
+    b.onclick = () => answer(g);
+    bar.appendChild(b);
+  });
+}
+function answer(g) {
+  if (!shown) return;
+  const now = Date.now(), prev = cardState(current.id);
+  const next = schedule(prev, g, now);
+  lastAnswer = { id: current.id, prev: S.cards[current.id] ? JSON.parse(JSON.stringify(S.cards[current.id])) : null, daily: Object.assign({}, S.daily) };
+  if (prev.s === ST_NEW) S.daily.newDone++; else if (prev.s === ST_REV && prev.due <= now) S.daily.revDone++;
+  S.cards[current.id] = next;
+  S.log.push([now, current.id, g, prev.s]);
+  if (S.log.length > 8000) S.log.splice(0, S.log.length - 8000);
+  if (S.conf.buryS && NOTES[current.n].ty === 'c') S.bury[current.n] = today();
+  if (S.streak.last !== today()) { S.streak.n = (S.streak.last === today() - 1) ? S.streak.n + 1 : 1; S.streak.last = today(); }
+  session.done++;
+  if (session.seen) session.seen.add(current.id);
+  save();
+  renderTopCounts();
+  nextCard();
+}
+
+function showDone() {
+  show('donebox');
+  const now = Date.now(), t = today();
+  const scope = (filter ? filter.ids : CARDS.map(c => c.id));
+  let soon = 0, laterToday = 0, nw = 0;
+  scope.forEach(id => {
+    if (buried(BYID[id])) return;
+    const c = S.cards[id];
+    if (!c || c.s === ST_NEW) { nw++; return; }
+    if (c.s !== ST_LRN && c.s !== ST_RELRN) return;
+    if (c.due <= now + 60 * 60000) soon++;
+    else if (dayIdx(c.due) === t) laterToday++;
+  });
+  nw = Math.max(0, nw);
+  const capLeft = Math.max(0, S.conf.newPerDay - S.daily.newDone);
+  $('donetitle').textContent = soon ? 'Nothing ready yet' : 'Queue clear';
+  const bits = [];
+  if (soon) bits.push('<b>' + soon + '</b> card' + (soon === 1 ? '' : 's') + ' in learning, the first ready in ' + fmtIvl(nextDueIn(scope)) + '. Leave the tab open and come back.');
+  else bits.push('Everything due' + (filter ? ' in ' + esc(filter.label) : '') + ' has been answered.');
+  if (!soon && laterToday) bits.push(laterToday + ' learning card' + (laterToday === 1 ? '' : 's') + ' come back later today.');
+  if (nw && !capLeft) bits.push(nw + ' new card' + (nw === 1 ? '' : 's') + ' remain behind today\'s limit of ' + S.conf.newPerDay + ' — raise it in Settings only if you want the reviews it creates.');
+  if (!nw && !soon) bits.push('Every card ' + (filter ? 'in ' + esc(filter.label) : 'in this deck') + ' is now scheduled.');
+  $('donesub').innerHTML = bits.join(' ');
+  $('doneextra').textContent = filter ? 'Drill all ' + filter.ids.length : 'Study ahead';
+  renderTopCounts();
+}
+function nextDueIn(scope) {
+  const now = Date.now();
+  let best = Infinity;
+  scope.forEach(id => {
+    if (buried(BYID[id])) return;
+    const c = S.cards[id];
+    if (c && (c.s === ST_LRN || c.s === ST_RELRN) && c.due > now) best = Math.min(best, c.due - now);
+  });
+  return best === Infinity ? 0 : best;
+}
+
+/* ---------- stats ---------- */
+function renderStats() {
+  show('stats');
+  const st = { nw: 0, lrn: 0, rev: 0, young: 0, mature: 0, leech: 0 };
+  CARDS.forEach(c => {
+    const s = S.cards[c.id];
+    if (!s || s.s === ST_NEW) st.nw++;
+    else if (s.s === ST_LRN || s.s === ST_RELRN) st.lrn++;
+    else { st.rev++; if (s.ivl >= 21) st.mature++; else st.young++; }
+    if (s && isLeech(s)) st.leech++;
+  });
+  const revs = S.log.filter(l => l[3] !== ST_NEW);
+  const again = revs.filter(l => l[2] === 1).length;
+  const ret = revs.length ? Math.round((1 - again / revs.length) * 100) : null;
+  const t = today();
+  const todayReviews = S.log.filter(l => dayIdx(l[0]) === t).length;
+
+  const w = el('div');
+  const p1 = el('div', 'panel'); p1.appendChild(el('h2', '', 'Progress'));
+  const g = el('div', 'grid4');
+  [[CARDS.length - st.nw, 'cards seen', ''], [st.mature, 'mature (21d+)', ''], [ret == null ? '—' : ret + '%', 'retention', ''],
+   [S.streak.n, 'day streak', ''], [todayReviews, 'answered today', ''], [st.leech, 'leeches', '']]
+    .forEach(([v, l]) => { const d = el('div'); d.appendChild(el('b', 'num', String(v))); d.appendChild(el('span', '', l)); g.appendChild(d); });
+  p1.appendChild(g);
+  p1.appendChild(el('div', 'muted', '<div style="margin-top:12px;font-size:12.5px">' + st.nw + ' new · ' + st.lrn + ' learning · ' + st.young + ' young · ' + st.mature + ' mature</div>'));
+  w.appendChild(p1);
+
+  // forecast
+  const p2 = el('div', 'panel'); p2.appendChild(el('h2', '', 'Due over the next four weeks'));
+  const fc = new Array(28).fill(0);
+  CARDS.forEach(c => { const s = S.cards[c.id]; if (!s || s.s === ST_NEW) return; const d = dayIdx(s.due) - t; if (d >= 0 && d < 28) fc[d]++; else if (d < 0) fc[0]++; });
+  const mx = Math.max(1, ...fc);
+  const bars = el('div', 'fc');
+  fc.forEach(v => { const i = el('i'); i.style.height = (v / mx * 100) + '%'; i.title = v + ' cards'; bars.appendChild(i); });
+  p2.appendChild(bars);
+  p2.appendChild(el('div', 'fc-ax', '<span>today</span><span>+14d</span><span>+28d</span>'));
+  p2.appendChild(el('div', 'muted', '<div style="margin-top:6px;font-size:12.5px">Peak day: ' + mx + ' cards.</div>'));
+  w.appendChild(p2);
+
+  // per-objective accuracy
+  const p3 = el('div', 'panel'); p3.appendChild(el('h2', '', 'Accuracy by task statement'));
+  p3.appendChild(el('div', 'muted', '<div style="font-size:12.5px;margin-bottom:6px">First-attempt recall on review cards. Anything under 70% is where the next simulator run will cost you.</div>'));
+  const agg = {};
+  S.log.forEach(l => {
+    const card = BYID[l[1]]; if (!card) return;
+    const ts = NOTES[card.n].ts;
+    agg[ts] = agg[ts] || { n: 0, ok: 0 };
+    agg[ts].n++; if (l[2] > 1) agg[ts].ok++;
+  });
+  const keys = Object.keys(agg).sort();
+  if (!keys.length) p3.appendChild(el('div', 'muted', 'No reviews logged yet.'));
+  const bw = el('div', 'bars');
+  keys.forEach(k => {
+    const a = agg[k], pct = Math.round(a.ok / a.n * 100);
+    const row = el('div', 'bar');
+    row.appendChild(el('div', '', k === 'exam' ? 'Exam' : 'TS ' + k));
+    const tr = el('div', 'track'); const fl = el('div', 'fill' + (pct < 70 ? ' bad' : pct < 85 ? ' warn' : ''));
+    fl.style.width = pct + '%'; tr.appendChild(fl); row.appendChild(tr);
+    row.appendChild(el('div', 'v', pct + '% · ' + a.n));
+    bw.appendChild(row);
+  });
+  p3.appendChild(bw);
+  if (keys.length) {
+    const weak = keys.filter(k => agg[k].n >= 4 && agg[k].ok / agg[k].n < 0.7);
+    if (weak.length) {
+      const d = el('div', '', '<div class="eyebrow" style="margin:14px 0 6px">Study these</div>');
+      const tw = el('div', 'tagwrap');
+      weak.forEach(k => {
+        const b = el('button', 'chip', k === 'exam' ? 'Exam' : 'TS ' + k);
+        b.onclick = () => { runSearch('tag:ts::' + k.replace('.', '_'), 'TS ' + k); startSession(false, true); };
+        tw.appendChild(b);
+      });
+      d.appendChild(tw); p3.appendChild(d);
+    }
+  }
+  w.appendChild(p3);
+
+  // leeches
+  const leeches = CARDS.filter(c => S.cards[c.id] && isLeech(S.cards[c.id]));
+  if (leeches.length) {
+    const p4 = el('div', 'panel'); p4.appendChild(el('h2', '', 'Leeches'));
+    p4.appendChild(el('div', 'muted', '<div style="font-size:12.5px">Six lapses or more. A leech here is a signal to go read the source, not to drop the card.</div>'));
+    const tb = el('table', 'tbl', '<tr><th>Card</th><th>TS</th><th class="n">Lapses</th></tr>');
+    leeches.slice(0, 25).forEach(c => {
+      const n = NOTES[c.n];
+      const front = (n.ty === 'c' ? n.f.map(p => typeof p === 'string' ? p : p[1]).join('') : n.f).replace(/<[^>]+>/g, '');
+      const tr = el('tr', '', '<td>' + esc(front.slice(0, 90)) + '</td><td>' + esc(n.ts) + '</td><td class="n">' + S.cards[c.id].lapses + '</td>');
+      tb.appendChild(tr);
+    });
+    p4.appendChild(tb);
+    w.appendChild(p4);
+  }
+  $('stats').innerHTML = ''; $('stats').appendChild(w);
+}
+
+/* ---------- settings ---------- */
+function renderSettings() {
+  show('settings');
+  const w = el('div');
+  const p = el('div', 'panel'); p.appendChild(el('h2', '', 'Study settings'));
+  function row(label, hint, ctrl) {
+    const r = el('div', 'frow');
+    r.appendChild(el('div', '', '<div class="lbl">' + label + '</div><div class="hint">' + hint + '</div>'));
+    r.appendChild(ctrl); p.appendChild(r);
+  }
+  const np = el('select');
+  [10, 15, 20, 25, 30, 35, 50].forEach(v => { const o = el('option', '', v); o.value = v; if (v === S.conf.newPerDay) o.selected = true; np.appendChild(o); });
+  np.onchange = () => { S.conf.newPerDay = +np.value; saveNow(); renderTopCounts(); };
+  row('New cards per day', '20 with four weeks or more to go; 35 with two to three. Above 35 the review load compounds past what is sustainable.', np);
+
+  const mr = el('select');
+  [100, 150, 200, 300, 500, 9999].forEach(v => { const o = el('option', '', v === 9999 ? 'No limit' : v); o.value = v; if (v === S.conf.maxRev) o.selected = true; mr.appendChild(o); });
+  mr.onchange = () => { S.conf.maxRev = +mr.value; saveNow(); renderTopCounts(); };
+  row('Maximum reviews per day', 'Leave headroom. A cap that bites creates a backlog you never clear.', mr);
+
+  const rt = el('select');
+  [[0.85, '0.85 — lighter load'], [0.90, '0.90 — recommended'], [0.95, '0.95 — heavy']].forEach(([v, l]) => { const o = el('option', '', l); o.value = v; if (Math.abs(v - S.conf.retention) < 0.001) o.selected = true; rt.appendChild(o); });
+  rt.onchange = () => { S.conf.retention = +rt.value; saveNow(); };
+  row('Desired retention (FSRS)', 'The share of cards you want to recall at review time. Changing it mid-run reshapes every future interval.', rt);
+
+  const bs = el('select');
+  [[1, 'On'], [0, 'Off']].forEach(([v, l]) => { const o = el('option', '', l); o.value = v; if (!!v === !!S.conf.buryS) o.selected = true; bs.appendChild(o); });
+  bs.onchange = () => { S.conf.buryS = bs.value === '1'; saveNow(); renderTopCounts(); };
+  row('Bury siblings', 'Stops the two halves of a cloze card appearing in the same session.', bs);
+
+  const th = el('select');
+  [['auto', 'Match system'], ['light', 'Light'], ['dark', 'Dark']].forEach(([v, l]) => { const o = el('option', '', l); o.value = v; if (v === S.conf.theme) o.selected = true; th.appendChild(o); });
+  th.onchange = () => { S.conf.theme = th.value; saveNow(); applyTheme(); };
+  row('Theme', '', th);
+  w.appendChild(p);
+
+  const p2 = el('div', 'panel'); p2.appendChild(el('h2', '', 'Profile'));
+  p2.appendChild(el('div', 'muted', '<div style="font-size:13.5px">Studying as <b>' + esc(profile) + '</b>. Progress lives in this browser only. Back it up before changing machines or clearing site data.</div>'));
+  const btns = el('div', 'right'); btns.style.justifyContent = 'flex-start';
+  const b1 = el('button', '', 'Back up'); b1.onclick = exportProfile;
+  const b2 = el('button', '', 'Restore'); b2.onclick = importProfile;
+  const b3 = el('button', 'ghost', 'Switch profile'); b3.onclick = () => { saveNow(); location.reload(); };
+  const b4 = el('button', 'ghost', 'Reset schedule'); b4.onclick = resetSchedule;
+  btns.appendChild(b1); btns.appendChild(b2); btns.appendChild(b3); btns.appendChild(b4);
+  p2.appendChild(btns);
+  w.appendChild(p2);
+
+  const p3 = el('div', 'panel'); p3.appendChild(el('h2', '', 'About this deck'));
+  p3.innerHTML += '<div style="font-size:13.5px;line-height:1.6">' +
+    '<p>' + CARDS.length + ' cards over ' + NOTES.length + ' notes, covering all 30 task statements of the CCAR-F exam guide. Card counts follow the objectives where candidates most often score zero, not the blueprint\'s domain weights.</p>' +
+    '<p>Scheduling is FSRS-5 with learning steps of 25 minutes and 1 day, relearning steps of 20 minutes and 1 day, and a leech threshold of six lapses — tagged, never suspended.</p>' +
+    '<p>Standing rule for anything added later: if a claim cannot be defended from the exam guide\'s own text, it does not go on a card, whatever a video says.</p>' +
+    '<p class="muted">Deck version ' + esc(DATA.built) + '. Pair it with the <a href="https://dogthathunts.github.io/ccarf-exam-simulator/">mock exam simulator</a>: the simulator locates the gap, the deck fills it, the next run tests whether it held.</p></div>';
+  w.appendChild(p3);
+  $('settings').innerHTML = ''; $('settings').appendChild(w);
+}
+function applyTheme() {
+  const t = S && S.conf.theme;
+  if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  else document.documentElement.removeAttribute('data-theme');
+}
+
+/* ---------- backup ---------- */
+let toastTimer = null;
+function toast(msg, bad) {
+  let t = $('toast');
+  if (!t) { t = el('div'); t.id = 'toast'; document.body.appendChild(t); }
+  t.className = bad ? 'bad' : '';
+  t.textContent = msg;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { if (t.parentNode) t.parentNode.removeChild(t); }, 4500);
+}
+function modal(title, bodyHTML, buttons) {
+  const box = $('modalbox'); box.innerHTML = '';
+  box.appendChild(el('h2', '', title));
+  box.appendChild(el('div', '', bodyHTML));
+  const r = el('div', 'right');
+  buttons.forEach(([label, cls, fn]) => { const b = el('button', cls, label); b.onclick = fn; r.appendChild(b); });
+  box.appendChild(r);
+  $('modal').classList.add('on');
+}
+function closeModal() { $('modal').classList.remove('on'); }
+function exportProfile() {
+  saveNow();
+  const payload = JSON.stringify({ app: 'ccarf-deck', profile: profile, state: S });
+  modal('Back up ' + esc(profile),
+    '<p style="font-size:13.5px" class="muted">Save the file, or copy the text below into a note. Restoring it on another machine carries your whole schedule across.</p>' +
+    '<textarea id="expta" readonly></textarea>',
+    [['Copy', '', () => { const t = $('expta'); t.select(); try { document.execCommand('copy'); toast('Backup copied to the clipboard.'); } catch (e) { toast('Press Cmd-C or Ctrl-C to copy.', true); } }],
+     ['Download file', 'primary', () => {
+       const blob = new Blob([payload], { type: 'application/json' });
+       const a = document.createElement('a');
+       a.href = URL.createObjectURL(blob);
+       a.download = 'ccarf-deck-' + profile.replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '.json';
+       document.body.appendChild(a); a.click(); a.remove();
+       setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+     }],
+     ['Close', 'ghost', closeModal]]);
+  $('expta').value = payload;
+}
+function importProfile() {
+  modal('Restore a backup',
+    '<p style="font-size:13.5px" class="muted">Paste a backup, or choose a file. This replaces the schedule for <b>' + esc(profile) + '</b>.</p>' +
+    '<input type="file" id="impfile" accept="application/json,.json" style="margin-bottom:10px">' +
+    '<textarea id="impta" placeholder="Paste backup JSON here"></textarea>',
+    [['Restore', 'primary', () => {
+      const txt = $('impta').value.trim();
+      if (!txt) { toast('Nothing to restore — paste a backup or choose a file.', true); return; }
+      applyImport(txt);
+    }], ['Cancel', 'ghost', closeModal]]);
+  $('impfile').onchange = e => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { $('impta').value = r.result; };
+    r.readAsText(f);
+  };
+}
+function applyImport(txt) {
+  let o;
+  try { o = JSON.parse(txt); } catch (e) { toast('That is not valid backup JSON.', true); return; }
+  const st = o && o.state ? o.state : o;
+  if (!st || typeof st !== 'object' || !st.cards) { toast('That file is not a CCAR-F deck backup.', true); return; }
+  S = Object.assign(freshState(), st);
+  S.conf = Object.assign(freshState().conf, st.conf || {});
+  saveNow(); closeModal(); applyTheme(); rollDay(); renderHome();
+  toast('Restored ' + Object.keys(S.cards).length + ' scheduled cards.');
+}
+function resetSchedule() {
+  modal('Reset schedule?',
+    '<p style="font-size:13.5px">This erases all progress for <b>' + esc(profile) + '</b> and starts the deck from zero. Back up first if you might want it back.</p>',
+    [['Erase everything', '', () => { S = freshState(); saveNow(); closeModal(); renderHome(); }],
+     ['Cancel', 'primary', closeModal]]);
+}
+
+/* ---------- profiles screen ---------- */
+function renderIntro() {
+  const f = $('introfacts'); f.innerHTML = '';
+  [[CARDS.length, 'cards'], [NOTES.length, 'notes'], [DOMAINS.length, 'domains'], [30, 'task statements'], [DATA.high, 'high priority']]
+    .forEach(([v, l]) => { const d = el('div'); d.appendChild(el('b', 'num', String(v))); d.appendChild(el('span', '', l)); f.appendChild(d); });
+  const list = lsGet(LS_PROFILES, []);
+  const wrap = $('profiles'); wrap.innerHTML = '';
+  list.forEach(name => {
+    const st = lsGet(pkey(name), null);
+    const seen = st && st.cards ? Object.keys(st.cards).length : 0;
+    const row = el('div', 'prow');
+    const b = el('button', 'pname', esc(name) + '<span class="psub">' + (seen ? seen + ' cards started' : 'not started') + '</span>');
+    b.onclick = () => enter(name);
+    const d = el('button', 'ghost', '×');
+    d.title = 'Remove ' + name + ' from this browser';
+    d.onclick = () => {
+      if (!confirmInline(d)) return;
+      localStorage.removeItem(pkey(name));
+      lsSet(LS_PROFILES, lsGet(LS_PROFILES, []).filter(x => x !== name));
+      renderIntro();
+    };
+    row.appendChild(b); row.appendChild(d); wrap.appendChild(row);
+  });
+}
+function confirmInline(btn) {
+  if (btn.dataset.armed === '1') return true;
+  btn.dataset.armed = '1'; const t = btn.textContent; btn.textContent = 'sure?';
+  setTimeout(() => { btn.dataset.armed = '0'; btn.textContent = t; }, 3000);
+  return false;
+}
+function enter(name) {
+  const list = lsGet(LS_PROFILES, []);
+  if (!list.includes(name)) { list.push(name); lsSet(LS_PROFILES, list); }
+  loadProfile(name);
+  $('intro').style.display = 'none';
+  $('shell').style.display = 'block';
+  renderHome();
+}
+
+/* ---------- wiring ---------- */
+$('addprofile').onclick = () => {
+  const v = $('newprofile').value.trim();
+  if (!v) { $('newprofile').focus(); return; }
+  enter(v);
+};
+$('newprofile').addEventListener('keydown', e => { if (e.key === 'Enter') $('addprofile').click(); });
+$('nav-home').onclick = renderHome;
+$('nav-stats').onclick = renderStats;
+$('nav-set').onclick = renderSettings;
+$('studyall').onclick = () => startSession(false);
+$('cramall').onclick = () => startSession(false, true);
+$('clearfilter').onclick = () => { setFilter(null); $('search').value = ''; };
+$('dosearch').onclick = () => runSearch($('search').value);
+$('search').addEventListener('keydown', e => { if (e.key === 'Enter') runSearch($('search').value); });
+$('reveal').onclick = () => { shown = true; renderCard(); };
+$('endsession').onclick = () => { session = null; renderHome(); };
+$('donehome').onclick = renderHome;
+$('doneextra').onclick = () => startSession(filter ? false : true, !!filter);
+$('undo').onclick = () => {
+  if (!lastAnswer) return;
+  const la = lastAnswer;
+  if (la.prev) S.cards[la.id] = la.prev; else delete S.cards[la.id];
+  S.daily = la.daily; S.log.pop(); lastAnswer = null;
+  session.done = Math.max(0, session.done - 1);
+  current = BYID[la.id]; shown = true;
+  save(); renderTopCounts(); renderCard(); show('study');
+};
+$('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+  if ($('modal').classList.contains('on')) { if (e.key === 'Escape') closeModal(); return; }
+  if ($('study').style.display !== 'block') return;
+  if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!shown) { shown = true; renderCard(); } else answer(3); return; }
+  if (!shown) return;
+  if (e.key >= '1' && e.key <= '4') { e.preventDefault(); answer(+e.key); }
+  if (e.key === 'u') { e.preventDefault(); $('undo').click(); }
+});
+
+/* ---------- boot ---------- */
+(function boot() {
+  renderIntro();
+  const cur = lsGet(LS_CURRENT, null);
+  const list = lsGet(LS_PROFILES, []);
+  if (cur && list.includes(cur)) enter(cur);
+})();
+</script>
