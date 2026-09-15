@@ -13,6 +13,7 @@ import argparse, datetime, html, json, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, 'CCAR-F_cards_source.json')
+LINKS = os.path.join(HERE, 'CCAR-F_video_links.json')
 TPL = os.path.join(HERE, 'web_template.html')
 
 DOMAINS = [
@@ -61,6 +62,13 @@ def split_cloze(text):
 
 def build(out_path):
     rows = json.load(open(SRC))
+    # Source links per task statement, from build_links.py. Optional: if the file
+    # is absent the deck still builds, just without the "watch this" links.
+    try:
+        links = json.load(open(LINKS))['links']
+    except (IOError, ValueError, KeyError):
+        links = {}
+        print('note: no CCAR-F_video_links.json — building without source links')
     notes, cards, high = [], 0, 0
     for r in rows:
         n = {
@@ -94,6 +102,7 @@ def build(out_path):
         'tslist': sorted({n['ts'] for n in notes},
                          key=lambda t: (t == 'exam', t)),
         'classes': sorted({'class::' + n['c'] for n in notes}),
+        'links': links,
         'notes': notes,
     }
 

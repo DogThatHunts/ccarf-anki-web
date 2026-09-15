@@ -1,0 +1,352 @@
+{
+ "links": {
+  "1.1": [
+   {
+    "label": "Part 2",
+    "title": "Master Agentic Loops",
+    "id": "OCiLc9Frq84",
+    "cards": 14
+   },
+   {
+    "label": "EP02",
+    "title": "The Agentic Loop: Where 27% of the Claude Certification Li…",
+    "id": "LTgjnnkYOtA",
+    "cards": 10,
+    "t": 50,
+    "checked": "An agent is not magic. An agent is a loop. Four steps."
+   }
+  ],
+  "1.4": [
+   {
+    "label": "Part 5",
+    "title": "Multi-Step Workflows",
+    "id": "Ow0fCviHxrY",
+    "cards": 12
+   },
+   {
+    "label": "EP04",
+    "title": "Hooks & Enforcement: When a Prompt Isn't a Guarantee",
+    "id": "TqMBleCkAXc",
+    "cards": 9,
+    "t": 78,
+    "checked": "Verify identity before a financial operation. That needs a guarantee."
+   }
+  ],
+  "1.2": [
+   {
+    "label": "EP03",
+    "title": "Multi-Agent Systems for the Claude Certification — Hub & S…",
+    "id": "RFVJIjBCfIA",
+    "cards": 7,
+    "t": 75,
+    "checked": "The fix is decomposition. One coordinator splits the work..."
+   },
+   {
+    "label": "Part 3",
+    "title": "Multi-Agent Coordinator",
+    "id": "KQSSSP0op2M",
+    "cards": 5
+   }
+  ],
+  "1.3": [
+   {
+    "label": "EP03",
+    "title": "Multi-Agent Systems for the Claude Certification — Hub & S…",
+    "id": "RFVJIjBCfIA",
+    "cards": 7,
+    "t": 226,
+    "checked": "How does a coordinator actually create a sub-agent? With the Task tool."
+   },
+   {
+    "label": "Part 4",
+    "title": "Subagent Config & Context",
+    "id": "bFdRH69h9LU",
+    "cards": 7
+   },
+   {
+    "label": "Part 3",
+    "title": "Multi-Agent Coordinator",
+    "id": "KQSSSP0op2M",
+    "cards": 3
+   }
+  ],
+  "1.5": [
+   {
+    "label": "Part 6",
+    "title": "SDK Hooks & Normalization",
+    "id": "UTzVVg8Aepc",
+    "cards": 10
+   },
+   {
+    "label": "EP04",
+    "title": "Hooks & Enforcement: When a Prompt Isn't a Guarantee",
+    "id": "TqMBleCkAXc",
+    "cards": 4,
+    "t": 145,
+    "checked": "A hook is code that sits on the wire between the agent and its tools."
+   }
+  ],
+  "1.6": [
+   {
+    "label": "Part 7",
+    "title": "Decomposition Strategies",
+    "id": "kjzfSpgfvss",
+    "cards": 10
+   },
+   {
+    "label": "EP04",
+    "title": "Hooks & Enforcement: When a Prompt Isn't a Guarantee",
+    "id": "TqMBleCkAXc",
+    "cards": 4,
+    "t": 324,
+    "checked": "One more design decision the exam tests. How to break a big task into steps."
+   }
+  ],
+  "1.7": [
+   {
+    "label": "Part 8",
+    "title": "Session State & Resumption",
+    "id": "GbEpxz4wf9s",
+    "cards": 7
+   }
+  ],
+  "2.1": [
+   {
+    "label": "Part 9",
+    "title": "Tool Design",
+    "id": "TKmhUOlzM6w",
+    "cards": 10
+   },
+   {
+    "label": "EP05",
+    "title": "Tool Design & MCP Integration: the 18% Most People Fumble",
+    "id": "mpIDKB8ZX_w",
+    "cards": 5,
+    "t": 118,
+    "checked": "A tool definition has three required parts. A name, a description and an input schema."
+   }
+  ],
+  "2.2": [
+   {
+    "label": "Part 10",
+    "title": "Structured Errors",
+    "id": "cMCoA_MGDdw",
+    "cards": 18
+   }
+  ],
+  "2.3": [
+   {
+    "label": "Part 11",
+    "title": "Tool Distribution",
+    "id": "K-HRtSQLGfU",
+    "cards": 15
+   }
+  ],
+  "2.4": [
+   {
+    "label": "Part 12",
+    "title": "MCP Servers",
+    "id": "NlTC0XY8orw",
+    "cards": 12
+   },
+   {
+    "label": "Part 9",
+    "title": "Tool Design",
+    "id": "TKmhUOlzM6w",
+    "cards": 7
+   }
+  ],
+  "2.5": [
+   {
+    "label": "Part 13",
+    "title": "Built-in Tools",
+    "id": "IN2WntoHedY",
+    "cards": 11
+   }
+  ],
+  "3.1": [
+   {
+    "label": "Part 14",
+    "title": "CLAUDE.md Config",
+    "id": "qFYN8XYMTZM",
+    "cards": 9
+   },
+   {
+    "label": "EP06",
+    "title": "Configuring Claude Code: CLAUDE.md, Commands & Permissions",
+    "id": "Iy_j1V5E3dE",
+    "cards": 8,
+    "t": 63,
+    "checked": "Start with memory, the CLAUDE.md file... there is a hierarchy. Four layers."
+   }
+  ],
+  "3.2": [
+   {
+    "label": "Part 15",
+    "title": "Commands & Skills",
+    "id": "AaGMyP2hBRY",
+    "cards": 7
+   }
+  ],
+  "3.3": [
+   {
+    "label": "Part 16",
+    "title": "Path-Specific Rules",
+    "id": "iOvyCv_rwac",
+    "cards": 7
+   }
+  ],
+  "3.4": [
+   {
+    "label": "Part 17",
+    "title": "Plan Mode vs Execution",
+    "id": "96v5N5YGMPM",
+    "cards": 4
+   }
+  ],
+  "3.5": [
+   {
+    "label": "Part 18",
+    "title": "Iterative Refinement",
+    "id": "J2rT6yp-Lak",
+    "cards": 9
+   }
+  ],
+  "3.6": [
+   {
+    "label": "Part 19",
+    "title": "CI/CD Integration",
+    "id": "UnN8c0Sshq8",
+    "cards": 2
+   }
+  ],
+  "4.1": [
+   {
+    "label": "Part 20",
+    "title": "Prompt Design Criteria",
+    "id": "EzWRMJz9lXc",
+    "cards": 7
+   }
+  ],
+  "4.2": [
+   {
+    "label": "EP08",
+    "title": "Prompt Engineering for Claude: Explicit Criteria & Few-Sho…",
+    "id": "YTIjI90N_8k",
+    "cards": 10,
+    "t": 126,
+    "checked": "Technique 2, the highest leverage one on the list. Examples."
+   },
+   {
+    "label": "Part 21",
+    "title": "Few-Shot Prompting",
+    "id": "u6oCkdxU5kw",
+    "cards": 9
+   }
+  ],
+  "4.3": [
+   {
+    "label": "EP09",
+    "title": "Structured Output from Claude: JSON Schemas, Validation &…",
+    "id": "O7BzofvjAFo",
+    "cards": 17,
+    "t": 121,
+    "checked": "A tool is optional by default... you force it with the tool choice parameter."
+   },
+   {
+    "label": "Part 22",
+    "title": "Structured Output Patterns",
+    "id": "CxwIKbepDwQ",
+    "cards": 16
+   }
+  ],
+  "4.4": [
+   {
+    "label": "EP09",
+    "title": "Structured Output from Claude: JSON Schemas, Validation &…",
+    "id": "O7BzofvjAFo",
+    "cards": 19,
+    "t": 265,
+    "checked": "Even with the perfect schema, validate what comes back."
+   },
+   {
+    "label": "Part 23",
+    "title": "Validation & Retry Loops",
+    "id": "wyqmHtVGxAg",
+    "cards": 17
+   }
+  ],
+  "4.5": [
+   {
+    "label": "Part 24",
+    "title": "Batch Processing Strategies",
+    "id": "6ZGgMSQz3eg",
+    "cards": 14
+   }
+  ],
+  "4.6": [
+   {
+    "label": "Part 25",
+    "title": "Multi-Instance Review Architectures",
+    "id": "W7c9wNfoCjU",
+    "cards": 8
+   }
+  ],
+  "5.1": [
+   {
+    "label": "Part 26",
+    "title": "Context Management",
+    "id": "H8Vpe9j4N5I",
+    "cards": 12
+   },
+   {
+    "label": "EP10",
+    "title": "Context Management & Reliability for Claude Agents — the 1…",
+    "id": "O3QHEltaln4",
+    "cards": 4,
+    "t": 128,
+    "checked": "Filling the window is not the goal. As context grows, accuracy degrades."
+   }
+  ],
+  "5.2": [
+   {
+    "label": "Part 27",
+    "title": "Escalation & Ambiguity Resolution",
+    "id": "FOBfTw-9Olo",
+    "cards": 15
+   }
+  ],
+  "5.3": [
+   {
+    "label": "Part 28",
+    "title": "Error Propagation in Multi-Agents",
+    "id": "mOUeDdo8rF0",
+    "cards": 6
+   }
+  ],
+  "5.4": [
+   {
+    "label": "Part 29",
+    "title": "Large Codebase Context",
+    "id": "LRUdrMbFheA",
+    "cards": 14
+   }
+  ],
+  "5.5": [
+   {
+    "label": "Part 30",
+    "title": "Human Review Workflows",
+    "id": "-sHcC8BWxD8",
+    "cards": 11
+   }
+  ],
+  "5.6": [
+   {
+    "label": "Part 31",
+    "title": "Information Provenance & Uncertainty",
+    "id": "EfQSimX5wlM",
+    "cards": 9
+   }
+  ]
+ }
+}

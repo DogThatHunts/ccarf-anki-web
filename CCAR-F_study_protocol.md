@@ -93,6 +93,8 @@ The first screen asks who is studying. Each name keeps its own schedule, so seve
 
 **When you miss a card,** say the correct answer out loud before pressing Again. Recall attempted and failed, then corrected, is worth more than recall not attempted.
 
+**When the answer doesn't make sense,** use the source links under the reference line. They appear on the answer side only, deliberately: clicking out mid-question destroys the retrieval attempt, which is the whole mechanism. The 32 lesson videos map one to one onto the exam objectives, so those links open the lesson that teaches the card. The twelve episode links carry a timestamp, set ten seconds before the explanation begins. This is also what to do with a leech: six lapses means the concept never landed, and the card alone will not fix that.
+
 **Weekly, one timed simulator run.** Take the full 60-question form under the clock. The score report gives a per-objective breakdown.
 
 **After each run,** take every objective below 70% and study those cards specifically. Under Custom study, tap the task statement — TS 3.1, say — then **Drill all**, which walks the whole tag whether or not those cards are due, weakest first. The search box takes the same tags directly: `tag:ts::3_1`, `priority::high`, `class::discrimination`, `-scope::background`, `is:leech`, and combinations of them. The Stats page surfaces the same thing from the other side: any objective under 70% on first-attempt recall gets a chip you can tap straight into a drill.
@@ -135,8 +137,13 @@ If you have four weeks:
 To change cards, edit the source and rebuild:
 
 ```
+python3 build_links.py      # writes CCAR-F_video_links.json (needs ../summaries and ../transcripts)
 python3 build_web.py        # writes index.html
 ```
+
+`build_links.py` only needs re-running when cards change which videos they cite. It reads each summary's own source link for the video ID and never copies transcript text into the output — the deck links to the videos, it does not republish them.
+
+Adding a timestamped chapter means adding a line to `CHAPTERS` in that script, and the rule there is the same one that governs the cards: read the transcript at that second and confirm it is the explanation, not the end-of-episode quiz. Every existing entry carries the line it was checked against. Automated matching was tried and rejected — it was right about half the time, and its confidence score did not separate the right answers from the wrong ones. A wrong timestamp is worse than none.
 
 No dependencies and no build toolchain: the script formats each note, expands cloze notes into their individual holes, and injects the result into `web_template.html` at its `__DATA__` placeholder. The output is one self-contained file. Commit it and GitHub Pages serves the new version.
 

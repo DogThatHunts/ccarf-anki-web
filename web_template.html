@@ -105,6 +105,14 @@ h1,h2,h3{font-family:Charter,'Iowan Old Style',Georgia,serif;font-weight:600}
 .a{margin-top:4px;font-size:17px;line-height:1.6}
 hr.sep{border:none;border-top:1px solid var(--line);margin:18px 0 14px}
 .ref{margin-top:22px;font-size:12.5px;color:var(--muted)}
+.src{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.src .lbl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-right:2px}
+.src a{display:inline-flex;align-items:baseline;gap:6px;max-width:100%;text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 11px;font-size:12.5px;color:var(--ink);background:var(--surface)}
+.src a:hover{border-color:var(--accent);color:var(--accent)}
+.src a .ep{font-weight:700;white-space:nowrap}
+.src a .tt{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.src a:hover .tt{color:var(--accent)}
+.src a .at{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
 .cl{color:var(--accent);font-weight:700}
 .cl.blank{letter-spacing:.06em}
 #answerbar{margin:18px 0 0;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
@@ -275,6 +283,7 @@ const BYID = {}; CARDS.forEach((c, k) => { c.k = k; BYID[c.id] = c; });
 const DOMAINS = DATA.domains;
 const TSLIST = DATA.tslist;
 const CLASSES = DATA.classes;
+const LINKS = DATA.links || {};
 
 /* ============================ storage ============================ */
 const LS_PROFILES = 'ccarf.deck.profiles';
@@ -778,6 +787,8 @@ function renderCard() {
     if (n.ty !== 'c') box.appendChild(el('hr', 'sep'));
     if (n.b) box.appendChild(el('div', 'a', n.b));
     if (n.r) box.appendChild(el('div', 'ref', n.r));
+    const src = sourceLinks(n.ts);
+    if (src) box.appendChild(src);
   }
   $('revealbar').className = shown ? 'hide' : '';
   $('answerbar').className = shown ? '' : 'hide';
@@ -792,6 +803,32 @@ function frontHTML(n, ord, revealed) {
     return revealed ? '<span class="cl">' + p[1] + '</span>' : '<span class="cl blank">[ ' + (p[2] ? esc(p[2]) : '...') + ' ]</span>';
   }).join('');
 }
+// Source links sit on the answer side only: clicking out mid-question destroys
+// the retrieval attempt, which is the whole mechanism. Here it is the natural
+// next step when you have just missed a card.
+function mmss(t) {
+  const m = Math.floor(t / 60), sec = t % 60;
+  return m + ':' + String(sec).padStart(2, '0');
+}
+function sourceLinks(ts) {
+  const list = LINKS[ts];
+  if (!list || !list.length) return null;
+  const wrap = el('div', 'src');
+  wrap.appendChild(el('span', 'lbl', 'Watch'));
+  list.forEach(e => {
+    const a = el('a');
+    a.href = 'https://www.youtube.com/watch?v=' + e.id + (e.t ? '&t=' + Math.max(0, e.t - 10) + 's' : '');
+    a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.title = e.t ? 'Opens at ' + mmss(Math.max(0, e.t - 10)) + ', just before the explanation'
+                  : 'The whole lesson covers this objective';
+    a.appendChild(el('span', 'ep', esc(e.label)));
+    a.appendChild(el('span', 'tt', esc(e.title)));
+    if (e.t) a.appendChild(el('span', 'at', mmss(Math.max(0, e.t - 10))));
+    wrap.appendChild(a);
+  });
+  return wrap;
+}
+
 const GRADES = [[1, 'Again', 'g1'], [2, 'Hard', ''], [3, 'Good', ''], [4, 'Easy', 'g4']];
 function renderGrades(c) {
   const bar = $('answerbar'); bar.innerHTML = '';
@@ -1018,6 +1055,7 @@ function renderSettings() {
     '<p>' + CARDS.length + ' cards over ' + NOTES.length + ' notes, covering all 30 task statements of the CCAR-F exam guide. Card counts follow the objectives where candidates most often score zero, not the blueprint\'s domain weights.</p>' +
     '<p>Scheduling is FSRS-5 with learning steps of 25 minutes and 1 day, relearning steps of 20 minutes and 1 day, and a leech threshold of six lapses — tagged, never suspended.</p>' +
     '<p>Standing rule for anything added later: if a claim cannot be defended from the exam guide\'s own text, it does not go on a card, whatever a video says.</p>' +
+    '<p>Every card carries its sources on the answer side. The 32 lesson videos map one to one onto the exam objectives, so those links open the lesson itself; the twelve episode links carry a timestamp, each one checked by hand against the transcript and set ten seconds before the explanation starts.</p>' +
     '<p class="muted">Deck version ' + esc(DATA.built) + '. Pair it with the <a href="https://dogthathunts.github.io/ccarf-exam-simulator/">mock exam simulator</a>: the simulator locates the gap, the deck fills it, the next run tests whether it held.</p></div>';
   w.appendChild(p3);
   $('settings').innerHTML = ''; $('settings').appendChild(w);

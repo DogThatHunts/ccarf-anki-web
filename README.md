@@ -10,6 +10,7 @@ A spaced-repetition deck for the **Claude Certified Architect – Foundations (C
 - Custom study by task statement, priority, or card class: `tag:ts::3_1`, `priority::high`, `class::discrimination`, `-scope::background`, `is:leech`. **Drill all** walks a whole tag whether or not the cards are due, weakest first
 - Stats: retention, four-week forecast, and first-attempt accuracy per objective, with a one-tap drill on anything under 70%
 - Named profiles, so several people can share a machine, with backup and restore as a JSON file
+- **Source links on the answer side** of every card: the lesson video for that objective, and for the twelve episode chapters a timestamp set ten seconds before the explanation starts. On the answer side only — clicking out mid-question destroys the retrieval attempt
 - Keyboard: space reveals, 1–4 grade, `u` undoes
 
 Everything runs client-side in a single HTML file. No account, no install, no data leaves your browser — which also means progress is per-browser, so use **Back up** in Settings before switching machines.
@@ -23,8 +24,11 @@ Pair it with the [mock exam simulator](https://dogthathunts.github.io/ccarf-exam
 `CCAR-F_cards_source.json` is the source of record; `CCAR-F_cards_source.csv` is the same content flat, for spreadsheet editing.
 
 ```
+python3 build_links.py      # writes CCAR-F_video_links.json (needs ../summaries and ../transcripts)
 python3 build_web.py        # writes index.html
 ```
+
+`build_links.py` reads each source summary's own link for its video ID; no transcript text is copied into the output, and none is published here. The deck links to the videos, it does not republish them.
 
 No dependencies. The script formats each note, expands cloze notes into their individual holes, and injects the result into `web_template.html` at its `__DATA__` placeholder.
 
